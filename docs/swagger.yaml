@@ -1,0 +1,452 @@
+definitions:
+  main.Customers:
+    properties:
+      IDUserCreator:
+        type: integer
+      Name:
+        type: string
+    type: object
+  main.Orders:
+    properties:
+      IDCustomer:
+        type: integer
+      IDUserCreator:
+        type: integer
+      Name:
+        type: string
+    type: object
+  main.OutputFormat:
+    properties:
+      Code:
+        type: string
+      Data: {}
+      Errors:
+        items:
+          properties:
+            Error:
+              type: string
+            Field:
+              type: string
+          type: object
+        type: array
+      Message:
+        type: string
+      Success:
+        type: boolean
+    type: object
+  main.Paginator:
+    properties:
+      Limit:
+        type: integer
+      NextPage:
+        type: integer
+      Offset:
+        type: integer
+      Page:
+        type: integer
+      PrevPage:
+        type: integer
+      Records: {}
+      TotalPage:
+        type: integer
+      TotalRecord:
+        type: integer
+    type: object
+  main.UserOutputs:
+    properties:
+      ID:
+        type: integer
+      Token:
+        type: string
+      Username:
+        type: string
+    type: object
+  main.Users:
+    properties:
+      Password:
+        type: string
+      Username:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Api Documentation
+  title: Swagger
+  version: "1.0"
+paths:
+  /customers:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: "1"
+        in: query
+        name: page
+        type: string
+      - description: "20"
+        in: query
+        name: limit
+        type: string
+      - description: id DESC
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.OutputFormat'
+            - properties:
+                Data:
+                  allOf:
+                  - $ref: '#/definitions/main.Paginator'
+                  - properties:
+                      Records:
+                        items:
+                          $ref: '#/definitions/main.Customers'
+                        type: array
+                    type: object
+              type: object
+      security:
+      - JWTAuth: []
+      summary: get customers
+      tags:
+      - Customers
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Customers
+        in: body
+        name: Customers
+        required: true
+        schema:
+          $ref: '#/definitions/main.Customers'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.OutputFormat'
+            - properties:
+                Data:
+                  $ref: '#/definitions/main.Customers'
+              type: object
+      security:
+      - JWTAuth: []
+      summary: add customer
+      tags:
+      - Customers
+  /customers/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: "1"
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.OutputFormat'
+            - properties:
+                Data:
+                  type: boolean
+              type: object
+      security:
+      - JWTAuth: []
+      summary: delete customer
+      tags:
+      - Customers
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: "1"
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.OutputFormat'
+            - properties:
+                Data:
+                  $ref: '#/definitions/main.Customers'
+              type: object
+      security:
+      - JWTAuth: []
+      summary: get customer detail
+      tags:
+      - Customers
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: "1"
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Customers
+        in: body
+        name: Customers
+        required: true
+        schema:
+          $ref: '#/definitions/main.Customers'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.OutputFormat'
+            - properties:
+                Data:
+                  $ref: '#/definitions/main.Customers'
+              type: object
+      security:
+      - JWTAuth: []
+      summary: update customer
+      tags:
+      - Customers
+  /orders:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: "1"
+        in: query
+        name: id_customer
+        type: string
+      - description: "1"
+        in: query
+        name: page
+        type: string
+      - description: "20"
+        in: query
+        name: limit
+        type: string
+      - description: id DESC
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.OutputFormat'
+            - properties:
+                Data:
+                  allOf:
+                  - $ref: '#/definitions/main.Paginator'
+                  - properties:
+                      Records:
+                        items:
+                          $ref: '#/definitions/main.Orders'
+                        type: array
+                    type: object
+              type: object
+      security:
+      - JWTAuth: []
+      summary: get orders
+      tags:
+      - Orders
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Orders
+        in: body
+        name: Orders
+        required: true
+        schema:
+          $ref: '#/definitions/main.Orders'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.OutputFormat'
+            - properties:
+                Data:
+                  $ref: '#/definitions/main.Orders'
+              type: object
+      security:
+      - JWTAuth: []
+      summary: add order
+      tags:
+      - Orders
+  /orders/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: "1"
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.OutputFormat'
+            - properties:
+                Data:
+                  type: boolean
+              type: object
+      security:
+      - JWTAuth: []
+      summary: delete order
+      tags:
+      - Orders
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: "1"
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.OutputFormat'
+            - properties:
+                Data:
+                  $ref: '#/definitions/main.Orders'
+              type: object
+      security:
+      - JWTAuth: []
+      summary: get order detail
+      tags:
+      - Orders
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: "1"
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Orders
+        in: body
+        name: Orders
+        required: true
+        schema:
+          $ref: '#/definitions/main.Orders'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.OutputFormat'
+            - properties:
+                Data:
+                  $ref: '#/definitions/main.Orders'
+              type: object
+      security:
+      - JWTAuth: []
+      summary: update order
+      tags:
+      - Orders
+  /user_login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Users
+        in: body
+        name: Users
+        required: true
+        schema:
+          $ref: '#/definitions/main.Users'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.OutputFormat'
+            - properties:
+                Data:
+                  $ref: '#/definitions/main.UserOutputs'
+              type: object
+      summary: user login
+      tags:
+      - Auth
+  /user_register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Users
+        in: body
+        name: Users
+        required: true
+        schema:
+          $ref: '#/definitions/main.Users'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.OutputFormat'
+            - properties:
+                Data:
+                  $ref: '#/definitions/main.UserOutputs'
+              type: object
+      summary: user login
+      tags:
+      - Auth
+securityDefinitions:
+  JWTAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -1,0 +1,3 @@
+#!/bin/bash
+docker rm depo-mysql
+docker-compose run --name depo-mysql -p 3306:3306 depo-mysql

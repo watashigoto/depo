@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  depo-app:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        project_name: depo
+    ports:
+      - '${WEBSITE_PORT:-8080}:8080'
+    depends_on:
+      - depo-mysql
+  
+  depo-mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - '${DB_PORT:-3306}:3306'
+    volumes:
+      - mysqldata:/var/lib/mysql
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+
+volumes:
+  mysqldata:
+  

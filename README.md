@@ -1,1 +1,1 @@
-Swagger: <host>/swagger/index.html
+Swagger: {host}/swagger/index.html
